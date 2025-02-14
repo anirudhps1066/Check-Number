@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Check Number</title>
+    <link rel="stylesheet" href="index.css">
+    <link rel="shortcut icon" href="https://img.freepik.com/premium-photo/red-question-mark-symbol_2227-614.jpg?ga=GA1.1.1463180423.1737385638&semt=ais_hybrid" type="image/x-icon">
+</head>
+<body>
+    <div class="container">
+        <h1>CHECK IF A NUMBER IS EVEN, PRIME, PALINDROME, OR ARMSTRONG</h1>
+        <input type="number" id="numberInput" placeholder="Enter the number">
+        <select id="checkOption">
+            <option value="" disabled selected>Select an option</option>
+            <option value="evenOdd">Even or Odd</option>
+            <option value="prime">Prime Number</option>
+            <option value="palindrome">Palindrome</option>
+            <option value="armstrong">Armstrong</option>
+        </select>
+        <div class="buttons">
+            <button id="checkButton" onclick="checkNumber()">CHECK</button>
+            <button id="resetButton" onclick="reset()">RESET</button>
+        </div>
+        <div id="result"></div>
+    </div>
+
+    <script>
+        function checkNumber() {
+            const number = parseInt(document.getElementById('numberInput').value);
+            const option = document.getElementById('checkOption').value;
+            let resultText = '';
+
+            if (isNaN(number)) {
+                resultText = 'Please enter a valid number.';
+            } else if (!option) {
+                resultText = 'Please select an option from the dropdown.';
+            } else {
+                resultText = `Number: ${number}<br>`;
+                switch (option) {
+                    case 'evenOdd':
+                        resultText += `Even/Odd: ${isEven(number) ? 'Even' : 'Odd'}`;
+                        break;
+                    case 'prime':
+                        resultText += `Prime Number: ${isPrime(number) ? 'Yes' : 'No'}`;
+                        break;
+                    case 'palindrome':
+                        resultText += `Palindrome: ${isPalindrome(number) ? 'Yes' : 'No'}`;
+                        break;
+                    case 'armstrong':
+                        resultText += `Armstrong: ${isArmstrong(number) ? 'Yes' : 'No'}`;
+                        break;
+                    default:
+                        resultText += 'Please select a valid option.';
+                }
+            }
+
+            document.getElementById('result').innerHTML = resultText;
+        }
+
+        function reset() {
+            document.getElementById('numberInput').value = '';
+            document.getElementById('checkOption').selectedIndex = 0;
+            document.getElementById('result').innerHTML = '';
+        }
+
+        function isEven(number) {
+            return number % 2 === 0;
+        }
+
+        function isPrime(number) {
+            if (number <= 1) return false;
+            if (number <= 3) return true;
+            if (number % 2 === 0 || number % 3 === 0) return false;
+            for (let i = 5; i * i <= number; i += 6) {
+                if (number % i === 0 || number % (i + 2) === 0) return false;
+            }
+            return true;
+        }
+
+        function isPalindrome(number) {
+            const str = number.toString();
+            return str === str.split('').reverse().join('');
+        }
+
+        function isArmstrong(number) {
+            const str = number.toString();
+            const len = str.length;
+            let sum = 0;
+            for (let i = 0; i < len; i++) {
+                sum += Math.pow(parseInt(str[i]), len);
+            }
+            return sum === number;
+        }
+    </script>
+</body>
+</html>
